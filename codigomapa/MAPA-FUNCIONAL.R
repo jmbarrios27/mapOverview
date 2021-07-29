@@ -79,7 +79,7 @@ for(g in groups)
                                                                   "<b>","Distrito:","</b>", d$distrito,"<br>",
                                                                   "<b>","Corregimiento","</b>", d$corregimiento, "<br>",
                                                                   "<b>","ID TERMINAL:","</b>", d$terminales, "<br>",
-                                                                  "<b>","Ubicación:","</b>", d$location, "<br>",
+                                                                  "<b>","UbicaciÃ³n:","</b>", d$location, "<br>",
                                                                   "<b>","Promedio de transacciones:","</b>", d$Promedio, "<br>",
                                                                   "<b>","Volumen transacciones:","</b>", d$volumen,"<br>",
                                                                   "<b>","Latitud:","</b>", d$latitud,"<br>",
@@ -103,5 +103,8 @@ mapa_funcional <-mapa_colores %>% addLayersControl(overlayGroups = groups)%>%
       };
       updateLegend();
       this.on('baselayerchange', e => updateLegend());
-    }")
+    }")%>%
+hideGroup(group= groups)
 
+# MAPA
+mapa_funcional
