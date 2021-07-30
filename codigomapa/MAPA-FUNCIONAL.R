@@ -1,3 +1,12 @@
+# Usando librerias
+library(ggplot2)
+library(leaflet)
+library(sp)
+library(dplyr)
+library(stringr)
+library(htmlwidgets)
+library(ggmap)
+
 # elininar null
 data <- atmprueba_lleno
 data <- data[complete.cases(data),]
@@ -61,7 +70,9 @@ final_data <- final_data %>%
 # Creando grupos
 groups = as.character(unique(final_data$adquirente))
 
-mapa_colores = leaflet(final_data) %>% addTiles(group = "OpenStreetMap")#>%
+mapa_colores = leaflet(final_data) %>% addTiles(group = "OpenStreetMap")
+
+
 # Filtrando por grupos.
 for(g in groups) 
 {
@@ -73,7 +84,7 @@ for(g in groups)
     library = 'ion',
     markerColor = d$color
   )
-  mapa_colores = mapa_colores %>% addAwesomeMarkers(data = d, lat = d$latitud, lng =d$longitud, icon=icons_for,group = as.character(g) ,
+  mapa_colores = mapa_colores %>% addAwesomeMarkers(data = d, lat = d$latitud, lng =d$longitud, icon=icons_for,group = as.character(g),
                                                     popup = paste("<b>","Adquirente:" ,"</b>",d$adquirente,"<br>",
                                                                   "<b>","Provincia:","</b>", d$provincia, "<br>",
                                                                   "<b>","Distrito:","</b>", d$distrito,"<br>",
@@ -85,12 +96,15 @@ for(g in groups)
                                                                   "<b>","Latitud:","</b>", d$latitud,"<br>",
                                                                   "<b>","Longitud;","</b>",d$longitud),
                                                     clusterOptions = markerClusterOptions())
+
+
+
+  
 }
 
 
-
 # mapa
-mapa_funcional <-mapa_colores %>% addLayersControl(overlayGroups = groups)%>%
+mapa_funcional <-mapa_colores %>% addLayersControl(overlayGroups = groups, options = layersControlOptions(collapsed = FALSE),position='bottomright')%>%
   htmlwidgets::onRender("
     function(el, x) {
       var updateLegend = function () {
@@ -104,7 +118,8 @@ mapa_funcional <-mapa_colores %>% addLayersControl(overlayGroups = groups)%>%
       updateLegend();
       this.on('baselayerchange', e => updateLegend());
     }")%>%
-hideGroup(group= groups)
+  hideGroup(group= groups[2:34])
+
 
 # MAPA
 mapa_funcional
